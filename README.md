@@ -1,1 +1,1 @@
-# event_manager
+google api service key: 'AIzaSyC-2HM4X-sdH-EExBBgBDZZg1JnQnQ_tjA'

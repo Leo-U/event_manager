@@ -17,7 +17,7 @@ def clean_phone_numbers(phone_num)
   elsif phone_num.length == 11 && phone_num[0] == '1'
     phone_num.slice!(0)
   end
-  # reformat phone number:
+  # interpolate consistent non-numeric chars:
   "(#{phone_num[0..2]}) #{phone_num[3..5]}-#{phone_num[6..9]}"
 end
 

@@ -7,11 +7,18 @@ def clean_zipcode(zipcode)
 end
 
 def clean_phone_numbers(phone_num)
+  #remove non-numeric chars
+  phone_num = phone_num.gsub(/[^0-9]/, "")
+  #perform operations as per lesson instructions
   if phone_num.length < 10 || phone_num.length > 11 || (phone_num.length == 11 && phone_num[0] != "1")
     phone_num = "000-000-0000"
   elsif phone_num.length == 11 && phone_num[0] == "1"
     phone_num.slice!(0)
+    phone_num
+  else phone_num = phone_num
   end
+  #re-format phone number:
+  phone_num = "(#{phone_num[0..2]}) #{phone_num[3..5]}-#{phone_num[6..9]}"
 end
 
 def legislators_by_zipcode(zip)
@@ -54,9 +61,9 @@ contents.each do |row|
   id = row[0]
   name = row[:first_name]
   zipcode = clean_zipcode(row[:zipcode])
-  # homephone = clean_phone_numbers(row[:homephone])
+  phone_num = clean_phone_numbers(row[:homephone])
   legislators = legislators_by_zipcode(zipcode)
   form_letter = erb_template.result(binding)
   save_thank_you_letter(id,form_letter)
-  puts "#{name}: #{:homephone}}"
+  puts "name: #{name}, zipcode: #{zipcode}, phone number: #{phone_num}"
 end

@@ -75,17 +75,17 @@ contents.each do |row|
 end
 
 
-registered_hours_by_frequency = all_hours_registered.tally.sort_by {|k, v| v}.reverse.to_h
-registered_hours_by_frequency.transform_keys! { |key| key.to_s + ':00'}
+registered_hours_sorted_by_frequency = all_hours_registered.tally.sort_by {|k, v| v}.reverse.to_h
+registered_hours_sorted_by_frequency.transform_keys! { |key| key.to_s + ':00'}
 
-registered_days_by_frequency = all_days_registered.tally.sort_by {|k, v| v}.reverse.to_h
+registered_days_sorted_by_frequency = all_days_registered.tally.sort_by {|k, v| v}.reverse.to_h
 
-puts "\nregistration hourly frequencies:"
-registered_hours_by_frequency.each do |key, value|
-  puts "#{key}: #{value} registrations"
+def print_frequencies(title, frequencies)
+  puts "\n#{title} frequencies:"
+  frequencies.each do |key, value|
+    puts "#{key}: #{value} registrations"
+  end
 end
 
-puts "\nregistration daily frequencies:"
-registered_days_by_frequency.each do |key, value|
-  puts "#{key}: #{value} registrations"
-end
+print_frequencies("Registration hourly", registered_hours_sorted_by_frequency)
+print_frequencies("Registration daily", registered_days_sorted_by_frequency)

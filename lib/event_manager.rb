@@ -11,11 +11,9 @@ def clean_phone_numbers(phone_num)
   phone_num = phone_num.gsub(/[^0-9]/, "")
   #perform operations as per lesson instructions
   if phone_num.length < 10 || phone_num.length > 11 || (phone_num.length == 11 && phone_num[0] != "1")
-    phone_num = "000-000-0000"
+    phone_num = "0000000000"
   elsif phone_num.length == 11 && phone_num[0] == "1"
     phone_num.slice!(0)
-    phone_num
-  else phone_num = phone_num
   end
   #re-format phone number:
   phone_num = "(#{phone_num[0..2]}) #{phone_num[3..5]}-#{phone_num[6..9]}"

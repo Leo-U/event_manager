@@ -88,11 +88,11 @@ hours_frequencies.transform_keys! { |key| key.to_s + ':00'}
 days_frequencies = sort_by_frequency(days)
 
 def print_frequencies(title, frequencies)
-  puts "\n#{title} occurences:"
+  puts "\nRegistration tally by #{title}:"
   frequencies.each do |key, value|
     puts "#{key}: #{value}"
   end
 end
 
-print_frequencies("Registration hourly", hours_frequencies)
-print_frequencies("Registration daily", days_frequencies)
+print_frequencies("hour", hours_frequencies)
+print_frequencies("day", days_frequencies)

@@ -63,8 +63,8 @@ def parse_time(time, hours, days)
   days << day_registered
 end
 
-hours_registered = []
-days_registered = []
+hours = []
+days = []
 
 contents.each do |row|
   id = row[0]
@@ -75,17 +75,17 @@ contents.each do |row|
   form_letter = erb_template.result(binding)
   save_thank_you_letter(id,form_letter)
   puts "name: #{name}, zipcode: #{zipcode}, phone number: #{phone_num}"
-  parse_time(row[:regdate], hours_registered, days_registered)
+  parse_time(row[:regdate], hours, days)
 end
 
 def sort_by_frequency(times)
   times.tally.sort_by {|k, v| v}.reverse.to_h
 end
 
-hours_frequencies = sort_by_frequency(hours_registered)
+hours_frequencies = sort_by_frequency(hours)
 hours_frequencies.transform_keys! { |key| key.to_s + ':00'}
 
-days_frequencies = sort_by_frequency(days_registered)
+days_frequencies = sort_by_frequency(days)
 
 def print_frequencies(title, frequencies)
   puts "\n#{title} occurences:"

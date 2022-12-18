@@ -55,8 +55,16 @@ contents = CSV.open(
 template_letter = File.read('form_letter.erb')
 erb_template = ERB.new template_letter
 
-all_hours_registered = []
-all_days_registered = []
+hours_registered = []
+days_registered = []
+
+def parse_time(time, hours, days)
+  date_registered = Time.strptime(time, "%m/%d/%y %H:%M")
+  day_registered = date_registered.strftime("%A")
+  hour_registered = date_registered.hour
+  hours << hour_registered
+  days << day_registered
+end
 
 contents.each do |row|
   id = row[0]
@@ -64,24 +72,20 @@ contents.each do |row|
   zipcode = clean_zipcode(row[:zipcode])
   phone_num = clean_phone_numbers(row[:homephone])
   legislators = legislators_by_zipcode(zipcode)
-  date_registered = Time.strptime(row[:regdate], "%m/%d/%y %H:%M")
-  day_registered = date_registered.strftime("%A")
-  hour_registered = date_registered.hour
-  all_hours_registered << hour_registered
-  all_days_registered << day_registered
   form_letter = erb_template.result(binding)
   save_thank_you_letter(id,form_letter)
   puts "name: #{name}, zipcode: #{zipcode}, phone number: #{phone_num}"
+  parse_time(row[:regdate], hours_registered, days_registered)
 end
 
 def sort_by_frequency(times)
   times.tally.sort_by {|k, v| v}.reverse.to_h
 end
 
-hours_frequencies = sort_by_frequency(all_hours_registered)
+hours_frequencies = sort_by_frequency(hours_registered)
 hours_frequencies.transform_keys! { |key| key.to_s + ':00'}
 
-days_frequencies = sort_by_frequency(all_days_registered)
+days_frequencies = sort_by_frequency(days_registered)
 
 def print_frequencies(title, frequencies)
   puts "\n#{title} occurences:"

@@ -55,9 +55,6 @@ contents = CSV.open(
 template_letter = File.read('form_letter.erb')
 erb_template = ERB.new template_letter
 
-hours_registered = []
-days_registered = []
-
 def parse_time(time, hours, days)
   date_registered = Time.strptime(time, "%m/%d/%y %H:%M")
   day_registered = date_registered.strftime("%A")
@@ -65,6 +62,9 @@ def parse_time(time, hours, days)
   hours << hour_registered
   days << day_registered
 end
+
+hours_registered = []
+days_registered = []
 
 contents.each do |row|
   id = row[0]

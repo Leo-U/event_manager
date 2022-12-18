@@ -74,11 +74,14 @@ contents.each do |row|
   puts "name: #{name}, zipcode: #{zipcode}, phone number: #{phone_num}"
 end
 
+def sort_by_frequency(times)
+  times.tally.sort_by {|k, v| v}.reverse.to_h
+end
 
-registered_hours_sorted_by_frequency = all_hours_registered.tally.sort_by {|k, v| v}.reverse.to_h
-registered_hours_sorted_by_frequency.transform_keys! { |key| key.to_s + ':00'}
+hours_frequencies = sort_by_frequency(all_hours_registered)
+hours_frequencies.transform_keys! { |key| key.to_s + ':00'}
 
-registered_days_sorted_by_frequency = all_days_registered.tally.sort_by {|k, v| v}.reverse.to_h
+days_frequencies = sort_by_frequency(all_days_registered)
 
 def print_frequencies(title, frequencies)
   puts "\n#{title} frequencies:"
@@ -87,5 +90,5 @@ def print_frequencies(title, frequencies)
   end
 end
 
-print_frequencies("Registration hourly", registered_hours_sorted_by_frequency)
-print_frequencies("Registration daily", registered_days_sorted_by_frequency)
+print_frequencies("Registration hourly", hours_frequencies)
+print_frequencies("Registration daily", days_frequencies)
